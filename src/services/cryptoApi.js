@@ -63,7 +63,9 @@ export const fetchCoins = async (perPage = 50, page = 1) => {
  * @param {string} coinId - CoinGecko coin ID (e.g. "bitcoin")
  */
 export const fetchCoinDetail = async (coinId) => {
-  const { data } = await apiClient.get(`/coins/${coinId}`, {
+  if (!coinId) throw new Error('Coin ID is required');
+  const safeId = encodeURIComponent(String(coinId).trim());
+  const { data } = await apiClient.get(`/coins/${safeId}`, {
     params: {
       localization: false,
       tickers: false,
@@ -82,7 +84,9 @@ export const fetchCoinDetail = async (coinId) => {
  * @param {number} days   - Time range in days (1, 7, 14, 30, 90, 180, 365)
  */
 export const fetchCoinOhlc = async (coinId, days = 7) => {
-  const { data } = await apiClient.get(`/coins/${coinId}/ohlc`, {
+  if (!coinId) throw new Error('Coin ID is required');
+  const safeId = encodeURIComponent(String(coinId).trim());
+  const { data } = await apiClient.get(`/coins/${safeId}/ohlc`, {
     params: { vs_currency: 'usd', days },
   });
   return data;

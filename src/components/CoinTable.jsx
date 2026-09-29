@@ -7,7 +7,7 @@
  * Supports client-side search filtering passed in as a prop.
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sparkline from './Sparkline';
 import {
@@ -18,6 +18,8 @@ import {
   getPriceChangeClass,
 } from '../utils/formatters';
 import '../styles/CoinTable.css';
+
+const ITEMS_PER_PAGE = 10;
 
 // ── Sub-component: single table row ──────────────────────────────────────────
 
@@ -104,6 +106,13 @@ const CoinRow = React.memo(({ coin, index, onClick }) => {
 
 const CoinTable = ({ coins, searchQuery, onSearchChange }) => {
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const tableRef = useRef(null);
+
+  // Reset to page 1 whenever user searches
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
 
   // Navigate to detail page on row click
   const handleRowClick = useCallback(
@@ -112,17 +121,51 @@ const CoinTable = ({ coins, searchQuery, onSearchChange }) => {
   );
 
   // Apply client-side search filter
-  const filtered = coins.filter((coin) => {
-    if (!searchQuery.trim()) return true;
+  const filtered = useMemo(() => {
+    if (!searchQuery.trim()) return coins;
     const q = searchQuery.toLowerCase();
-    return (
-      coin.name.toLowerCase().includes(q) ||
-      coin.symbol.toLowerCase().includes(q)
+    return coins.filter(
+      (coin) =>
+        coin.name.toLowerCase().includes(q) ||
+        coin.symbol.toLowerCase().includes(q)
     );
-  });
+  }, [coins, searchQuery]);
+
+  // Pagination calculation
+  const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
+  const validPage = Math.min(currentPage, totalPages);
+  const startIndex = (validPage - 1) * ITEMS_PER_PAGE;
+  const currentCoins = useMemo(
+    () => filtered.slice(startIndex, startIndex + ITEMS_PER_PAGE),
+    [filtered, startIndex]
+  );
+
+  const startRecord = filtered.length > 0 ? startIndex + 1 : 0;
+  const endRecord = Math.min(startIndex + ITEMS_PER_PAGE, filtered.length);
+
+  const handlePageChange = (page) => {
+    if (page < 1 || page > totalPages || page === validPage) return;
+    setCurrentPage(page);
+    if (tableRef.current) {
+      tableRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  const getPageNumbers = () => {
+    if (totalPages <= 7) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+    if (validPage <= 4) {
+      return [1, 2, 3, 4, 5, '...', totalPages];
+    }
+    if (validPage >= totalPages - 3) {
+      return [1, '...', totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+    }
+    return [1, '...', validPage - 1, validPage, validPage + 1, '...', totalPages];
+  };
 
   return (
-    <>
+    <div ref={tableRef} className="coin-table-container">
       {/* Search & count bar */}
       <div className="controls">
         <div className="search-wrapper">
@@ -137,9 +180,11 @@ const CoinTable = ({ coins, searchQuery, onSearchChange }) => {
           <span className="search-wrapper__icon" aria-hidden="true">⌕</span>
         </div>
 
-        <span className="controls__count">
-          {filtered.length} / {coins.length} coins
-        </span>
+        <div className="controls__stats">
+          <span className="controls__count">
+            Showing {startRecord}–{endRecord} of {filtered.length} coins
+          </span>
+        </div>
       </div>
 
       {/* Table */}
@@ -159,8 +204,8 @@ const CoinTable = ({ coins, searchQuery, onSearchChange }) => {
             </tr>
           </thead>
           <tbody>
-            {filtered.length > 0 ? (
-              filtered.map((coin, i) => (
+            {currentCoins.length > 0 ? (
+              currentCoins.map((coin, i) => (
                 <CoinRow
                   key={coin.id}
                   coin={coin}
@@ -180,7 +225,55 @@ const CoinTable = ({ coins, searchQuery, onSearchChange }) => {
           </tbody>
         </table>
       </div>
-    </>
+
+      {/* Pagination Bar */}
+      {totalPages > 1 && (
+        <div className="pagination" aria-label="Coin table pagination">
+          <button
+            className="pagination__btn pagination__nav"
+            onClick={() => handlePageChange(validPage - 1)}
+            disabled={validPage === 1}
+            aria-label="Go to previous page"
+          >
+            ← Previous
+          </button>
+
+          <div className="pagination__pages">
+            {getPageNumbers().map((item, index) => {
+              if (item === '...') {
+                return (
+                  <span key={`ellipsis-${index}`} className="pagination__ellipsis">
+                    …
+                  </span>
+                );
+              }
+              const pageNum = Number(item);
+              const isActive = pageNum === validPage;
+              return (
+                <button
+                  key={`page-${pageNum}`}
+                  className={`pagination__btn pagination__page ${isActive ? 'active' : ''}`}
+                  onClick={() => handlePageChange(pageNum)}
+                  aria-current={isActive ? 'page' : undefined}
+                  aria-label={`Page ${pageNum}`}
+                >
+                  {pageNum}
+                </button>
+              );
+            })}
+          </div>
+
+          <button
+            className="pagination__btn pagination__nav"
+            onClick={() => handlePageChange(validPage + 1)}
+            disabled={validPage === totalPages}
+            aria-label="Go to next page"
+          >
+            Next →
+          </button>
+        </div>
+      )}
+    </div>
   );
 };
 

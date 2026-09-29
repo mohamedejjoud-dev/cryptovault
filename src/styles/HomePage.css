@@ -87,3 +87,27 @@
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .home-page {
+    padding: 1.5rem 0 3rem;
+  }
+
+  .home-hero {
+    margin-bottom: 1.5rem;
+  }
+
+  .home-hero__title {
+    font-size: clamp(1.75rem, 7vw, 2.5rem);
+  }
+
+  .home-hero__sub {
+    font-size: 0.85rem;
+  }
+
+  .refresh-bar {
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+}

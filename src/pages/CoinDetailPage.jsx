@@ -57,13 +57,22 @@ const RangeBar = ({ label, low, high, current }) => {
   );
 };
 
-// ── Strip HTML tags from CoinGecko descriptions ───────────────────────────────
+// ── Sanitize external URLs against javascript: or invalid schemes ─────────────
+const sanitizeUrl = (url) => {
+  if (!url || typeof url !== 'string') return null;
+  const trimmed = url.trim();
+  return /^https?:\/\//i.test(trimmed) ? trimmed : null;
+};
 
+// ── Strip HTML tags safely from descriptions ──────────────────────────────────
 const stripHtml = (html) => {
   if (!html) return '';
-  return html.replace(/<a[^>]*href="([^"]*)"[^>]*>([^<]*)<\/a>/gi, '$2 ($1)')
-             .replace(/<[^>]+>/g, '')
-             .trim();
+  try {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent || '';
+  } catch {
+    return html.replace(/<[^>]+>/g, '').trim();
+  }
 };
 
 // ── Main Component ────────────────────────────────────────────────────────────
@@ -175,7 +184,8 @@ const CoinDetailPage = () => {
               data={coin.market_data.sparkline_7d.price}
               isPositive={change7d >= 0}
               width={700}
-              height={80}
+              height={100}
+              responsive={true}
             />
           </div>
         )}
@@ -269,40 +279,40 @@ const CoinDetailPage = () => {
 
         {/* ── External Links ── */}
         <div className="detail-links" aria-label="External links">
-          {coin.links?.homepage?.[0] && (
+          {sanitizeUrl(coin.links?.homepage?.[0]) && (
             <a
               className="detail-link"
-              href={coin.links.homepage[0]}
+              href={sanitizeUrl(coin.links.homepage[0])}
               target="_blank"
               rel="noopener noreferrer"
             >
               🌐 Website
             </a>
           )}
-          {coin.links?.whitepaper && (
+          {sanitizeUrl(coin.links?.whitepaper) && (
             <a
               className="detail-link"
-              href={coin.links.whitepaper}
+              href={sanitizeUrl(coin.links.whitepaper)}
               target="_blank"
               rel="noopener noreferrer"
             >
               📄 Whitepaper
             </a>
           )}
-          {coin.links?.blockchain_site?.filter(Boolean)?.[0] && (
+          {sanitizeUrl(coin.links?.blockchain_site?.filter(Boolean)?.[0]) && (
             <a
               className="detail-link"
-              href={coin.links.blockchain_site[0]}
+              href={sanitizeUrl(coin.links.blockchain_site.filter(Boolean)[0])}
               target="_blank"
               rel="noopener noreferrer"
             >
               🔗 Explorer
             </a>
           )}
-          {coin.links?.repos_url?.github?.[0] && (
+          {sanitizeUrl(coin.links?.repos_url?.github?.[0]) && (
             <a
               className="detail-link"
-              href={coin.links.repos_url.github[0]}
+              href={sanitizeUrl(coin.links.repos_url.github[0])}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -312,17 +322,17 @@ const CoinDetailPage = () => {
           {coin.links?.twitter_screen_name && (
             <a
               className="detail-link"
-              href={`https://twitter.com/${coin.links.twitter_screen_name}`}
+              href={`https://twitter.com/${encodeURIComponent(coin.links.twitter_screen_name.replace(/^@/, ''))}`}
               target="_blank"
               rel="noopener noreferrer"
             >
               𝕏 Twitter
             </a>
           )}
-          {coin.links?.subreddit_url && (
+          {sanitizeUrl(coin.links?.subreddit_url) && (
             <a
               className="detail-link"
-              href={coin.links.subreddit_url}
+              href={sanitizeUrl(coin.links.subreddit_url)}
               target="_blank"
               rel="noopener noreferrer"
             >

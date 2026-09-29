@@ -11,7 +11,7 @@ import '../styles/Sparkline.css';
 const WIDTH  = 100;
 const HEIGHT = 36;
 
-const Sparkline = ({ data = [], isPositive, width = WIDTH, height = HEIGHT }) => {
+const Sparkline = ({ data = [], isPositive, width = WIDTH, height = HEIGHT, responsive = false }) => {
   // Normalize data to SVG coordinate paths
   const { linePath, fillPath } = useMemo(() => {
     if (!data || data.length < 2) return { linePath: '', fillPath: '' };
@@ -46,10 +46,12 @@ const Sparkline = ({ data = [], isPositive, width = WIDTH, height = HEIGHT }) =>
 
   return (
     <svg
-      className={`sparkline ${cls}`}
-      width={width}
-      height={height}
+      className={`sparkline ${cls} ${responsive ? 'sparkline--responsive' : ''}`}
+      width={responsive ? '100%' : width}
+      height={responsive ? '100%' : height}
       viewBox={`0 0 ${width} ${height}`}
+      preserveAspectRatio={responsive ? 'none' : undefined}
+      style={responsive ? { width: '100%', height: `${height}px`, display: 'block' } : undefined}
       aria-hidden="true"
     >
       <path className="sparkline__fill" d={fillPath} />
