@@ -1,55 +1,61 @@
-/* src/styles/NotFoundPage.css */
-
+/* ============================================================
+   404 NOT FOUND PAGE
+   ============================================================ */
 .not-found {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 60vh;
+  min-height: 55vh;
   text-align: center;
-  padding: 2rem;
-  animation: fadeIn 0.4s ease;
+  padding: 3rem 1.5rem;
+  flex: 1;
+  animation: fadeIn 0.25s ease;
 }
 
 .not-found__code {
-  font-family: var(--font-mono);
-  font-size: clamp(5rem, 15vw, 8rem);
-  font-weight: 800;
+  font-size: 4rem;
+  font-weight: 700;
   line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 2px var(--border-hover);
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  font-family: var(--font-mono);
   letter-spacing: -0.04em;
-  margin-bottom: 1rem;
 }
 
 .not-found__title {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.3rem;
+  font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 0.75rem;
+  margin-bottom: 8px;
 }
 
 .not-found__sub {
   color: var(--text-secondary);
-  font-size: 0.95rem;
-  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  margin-bottom: 28px;
+  max-width: 360px;
+  line-height: 1.55;
 }
 
 .not-found__btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 28px;
-  background: var(--accent);
-  border-radius: var(--radius-sm);
-  color: #fff;
-  font-weight: 700;
-  font-size: 0.9rem;
-  transition: opacity var(--transition), transform var(--transition);
-  box-shadow: 0 0 24px var(--accent-glow);
+  gap: 6px;
+  padding: 10px 22px;
+  background-color: var(--accent);
+  border-radius: var(--radius-md);
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
 }
 
 .not-found__btn:hover {
-  opacity: 0.85;
-  transform: translateY(-2px);
+  background-color: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.not-found__btn:active {
+  transform: translateY(0);
 }

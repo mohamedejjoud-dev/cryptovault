@@ -1,10 +1,3 @@
-/**
- * src/index.js
- *
- * Application entry point.
- * Mounts the React tree into the DOM and imports global styles.
- */
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles/global.css';

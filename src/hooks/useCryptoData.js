@@ -1,20 +1,8 @@
-/**
- * src/hooks/useCryptoData.js
- *
- * Custom React hooks that encapsulate data-fetching logic.
- * Components stay clean — they just call a hook and get { data, loading, error }.
- */
-
 import { useState, useEffect, useCallback } from 'react';
 import { fetchCoins, fetchCoinDetail, fetchGlobalStats } from '../services/cryptoApi';
 
-// ── useCoins ────────────────────────────────────────────────────────────────
-
-/**
- * Fetches and auto-refreshes the top coins list.
- * @param {number} perPage
- */
-export const useCoins = (perPage = 50) => {
+/** Polls the top-N coins market list every 60 seconds. */
+export const useCoins = (perPage = 100) => {
   const [coins, setCoins]     = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError]     = useState(null);
@@ -26,7 +14,7 @@ export const useCoins = (perPage = 50) => {
       const data = await fetchCoins(perPage);
       setCoins(data);
     } catch (err) {
-      setError(err.message);
+      setError(err.message ?? 'Failed to load market data.');
     } finally {
       setLoading(false);
     }
@@ -34,7 +22,6 @@ export const useCoins = (perPage = 50) => {
 
   useEffect(() => {
     load();
-    // Auto-refresh every 60 seconds
     const interval = setInterval(load, 60_000);
     return () => clearInterval(interval);
   }, [load]);
@@ -42,12 +29,7 @@ export const useCoins = (perPage = 50) => {
   return { coins, loading, error, refetch: load };
 };
 
-// ── useCoinDetail ───────────────────────────────────────────────────────────
-
-/**
- * Fetches detailed data for a single coin by ID.
- * @param {string} coinId
- */
+/** Fetches and caches full coin details for a given coin ID. */
 export const useCoinDetail = (coinId) => {
   const [coin, setCoin]       = useState(null);
   const [loading, setLoading] = useState(true);
@@ -61,7 +43,7 @@ export const useCoinDetail = (coinId) => {
       const data = await fetchCoinDetail(coinId);
       setCoin(data);
     } catch (err) {
-      setError(err.message);
+      setError(err.message ?? 'Failed to load coin details.');
     } finally {
       setLoading(false);
     }
@@ -74,29 +56,29 @@ export const useCoinDetail = (coinId) => {
   return { coin, loading, error, refetch: load };
 };
 
-// ── useGlobalStats ──────────────────────────────────────────────────────────
-
-/**
- * Fetches global crypto market statistics.
- */
+/** Fetches global market statistics once on mount. */
 export const useGlobalStats = () => {
   const [stats, setStats]     = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError]     = useState(null);
 
   useEffect(() => {
-    let cancelled = false;
+    let isMounted = true;
+
     (async () => {
       try {
         const data = await fetchGlobalStats();
-        if (!cancelled) setStats(data);
+        if (isMounted) setStats(data);
       } catch (err) {
-        if (!cancelled) setError(err.message);
+        if (isMounted) setError(err.message ?? 'Failed to load global stats.');
       } finally {
-        if (!cancelled) setLoading(false);
+        if (isMounted) setLoading(false);
       }
     })();
-    return () => { cancelled = true; };
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return { stats, loading, error };

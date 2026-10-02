@@ -1,52 +1,58 @@
-/* src/styles/ErrorMessage.css */
-
+/* ============================================================
+   ERROR MESSAGE
+   ============================================================ */
 .error-message {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
-  padding: 4rem 2rem;
+  gap: 12px;
+  padding: 3.5rem 2rem;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   text-align: center;
-  animation: fadeIn 0.3s ease;
 }
 
 .error-message__icon {
-  font-size: 2.5rem;
-  opacity: 0.6;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--red);
+  opacity: 0.7;
 }
 
 .error-message__title {
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 600;
   color: var(--text-primary);
 }
 
 .error-message__body {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.84rem;
   color: var(--red);
-  background: var(--red-dim);
-  border: 1px solid rgba(255, 77, 106, 0.2);
+  background-color: var(--red-subtle);
   border-radius: var(--radius-md);
-  padding: 0.75rem 1.25rem;
-  max-width: 500px;
+  padding: 8px 16px;
+  max-width: 480px;
+  line-height: 1.55;
+  font-family: var(--font-mono);
+  display: block;
+  word-break: break-word;
 }
 
 .error-message__retry {
-  margin-top: 0.5rem;
-  padding: 0.65rem 1.5rem;
-  background: var(--accent-dim);
-  border: 1px solid var(--accent);
-  border-radius: var(--radius-sm);
-  color: var(--accent-light);
-  font-family: var(--font-display);
-  font-size: 0.875rem;
-  font-weight: 600;
-  transition: background var(--transition), transform var(--transition);
+  margin-top: 4px;
+  padding: 8px 20px;
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
 }
 
 .error-message__retry:hover {
-  background: rgba(108, 99, 255, 0.25);
-  transform: translateY(-1px);
+  border-color: var(--border-focus);
+  background-color: var(--bg-hover);
 }

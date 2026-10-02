@@ -1,158 +1,152 @@
-/* ═══════════════════════════════════════
-   src/styles/global.css
-   Global reset, CSS variables, base styles
-   ═══════════════════════════════════════ */
+/* ============================================================
+   CryptoVault Design System — CoinMarketCap & CoinGecko Inspired
+   ============================================================ */
 
-/* ── Dark theme (default) ── */
 :root,
 [data-theme='dark'] {
-  /* Backgrounds */
-  --bg-primary: #08080f;
-  --bg-secondary: #0f0f1a;
-  --bg-card: #12121f;
-  --bg-card-hover: #181828;
-  --bg-input: #0d0d1a;
+  /* Surfaces */
+  --bg-page:           #0b0e14;
+  --bg-surface:        #121620;
+  --bg-subtle:         #18202e;
+  --bg-hover:          #1e2738;
+  --bg-input:          #10141d;
+  --bg-card:           #131824;
 
   /* Borders */
-  --border: #1e1e35;
-  --border-hover: #2e2e55;
+  --border:            #222b3d;
+  --border-subtle:     #192130;
+  --border-focus:      #3861fb;
 
-  /* Text */
-  --text-primary: #f0f0ff;
-  --text-secondary: #8888aa;
-  --text-muted: #44445a;
+  /* Typography */
+  --text-primary:      #f3f4f6;
+  --text-secondary:    #9ca3af;
+  --text-muted:        #64748b;
 
-  /* Accent */
-  --accent: #6c63ff;
-  --accent-light: #8b83ff;
-  --accent-dim: rgba(108, 99, 255, 0.15);
-  --accent-glow: rgba(108, 99, 255, 0.35);
+  /* Primary Brand Accent (CoinMarketCap Blue) */
+  --accent:            #3861fb;
+  --accent-hover:      #2b52e6;
+  --accent-subtle:     rgba(56, 97, 251, 0.14);
 
-  /* Semantic */
-  --green: #00e5a0;
-  --green-dim: rgba(0, 229, 160, 0.12);
-  --red: #ff4d6a;
-  --red-dim: rgba(255, 77, 106, 0.12);
+  /* Semantic Financial Colors */
+  --green:             #16c784;
+  --green-hover:       #13b477;
+  --green-subtle:      rgba(22, 199, 132, 0.12);
 
-  /* Grid texture */
-  --grid-line: rgba(108, 99, 255, 0.03);
+  --red:               #ea3943;
+  --red-hover:         #d6303a;
+  --red-subtle:        rgba(234, 57, 67, 0.12);
 
-  /* Navbar blur bg */
-  --navbar-bg: rgba(8, 8, 15, 0.85);
+  --gold:              #f5ac00;
+  --gold-subtle:       rgba(245, 172, 0, 0.12);
 
-  /* Skeleton shimmer */
-  --shimmer-base: #12121f;
-  --shimmer-highlight: #181828;
+  /* Shimmer / Skeleton */
+  --shimmer-base:      #121620;
+  --shimmer-highlight: #1c2333;
+
+  /* Shadows */
+  --shadow-sm:         0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md:         0 4px 12px rgba(0, 0, 0, 0.35);
+  --shadow-lg:         0 8px 24px rgba(0, 0, 0, 0.45);
 }
 
-/* ── Light theme ── */
 [data-theme='light'] {
-  /* Backgrounds */
-  --bg-primary: #f5f5fb;
-  --bg-secondary: #eeeef7;
-  --bg-card: #ffffff;
-  --bg-card-hover: #f0f0fa;
-  --bg-input: #f8f8ff;
+  /* Surfaces */
+  --bg-page:           #f8fafd;
+  --bg-surface:        #ffffff;
+  --bg-subtle:         #f1f5f9;
+  --bg-hover:          #f4f6f8;
+  --bg-input:          #ffffff;
+  --bg-card:           #ffffff;
 
   /* Borders */
-  --border: #ddddf0;
-  --border-hover: #b8b8dd;
+  --border:            #e2e8f0;
+  --border-subtle:     #edf2f7;
+  --border-focus:      #3861fb;
 
-  /* Text */
-  --text-primary: #0d0d1a;
-  --text-secondary: #55556a;
-  --text-muted: #9999bb;
+  /* Typography */
+  --text-primary:      #0f172a;
+  --text-secondary:    #475569;
+  --text-muted:        #94a3b8;
 
-  /* Accent — slightly richer in light mode */
-  --accent: #5a52e8;
-  --accent-light: #7a73f0;
-  --accent-dim: rgba(90, 82, 232, 0.1);
-  --accent-glow: rgba(90, 82, 232, 0.25);
+  /* Primary Brand Accent */
+  --accent:            #3861fb;
+  --accent-hover:      #2850eb;
+  --accent-subtle:     rgba(56, 97, 251, 0.09);
 
-  /* Semantic */
-  --green: #00b87a;
-  --green-dim: rgba(0, 184, 122, 0.1);
-  --red: #e8314a;
-  --red-dim: rgba(232, 49, 74, 0.1);
+  /* Semantic Financial Colors */
+  --green:             #16c784;
+  --green-hover:       #13b477;
+  --green-subtle:      rgba(22, 199, 132, 0.1);
 
-  /* Grid texture */
-  --grid-line: rgba(90, 82, 232, 0.04);
+  --red:               #ea3943;
+  --red-hover:         #d6303a;
+  --red-subtle:        rgba(234, 57, 67, 0.1);
 
-  /* Navbar blur bg */
-  --navbar-bg: rgba(245, 245, 251, 0.88);
+  --gold:              #d97706;
+  --gold-subtle:       rgba(217, 119, 6, 0.1);
 
-  /* Skeleton shimmer */
-  --shimmer-base: #e8e8f5;
-  --shimmer-highlight: #f0f0fa;
+  /* Shimmer / Skeleton */
+  --shimmer-base:      #e2e8f0;
+  --shimmer-highlight: #f1f5f9;
+
+  /* Shadows */
+  --shadow-sm:         0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md:         0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg:         0 10px 24px rgba(0, 0, 0, 0.08);
 }
 
-/* ── Shared tokens (never change with theme) ── */
+/* ============================================================
+   SHARED CONSTANTS
+   ============================================================ */
 :root {
-  --font-display: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --container-max: 1280px;
-  --container-pad: clamp(1rem, 4vw, 2.5rem);
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --container-max: 1360px;
+
+  --radius-xs: 4px;
   --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
-  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+
+  --transition-fast: 0.14s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ── Reset ── */
+/* ============================================================
+   RESET & BASE STYLES
+   ============================================================ */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
 }
 
 html {
-  scroll-behavior: smooth;
+  font-size: 14px;
   -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
-  font-family: var(--font-display);
-  background-color: var(--bg-primary);
+  font-family: var(--font-sans);
+  background-color: var(--bg-page);
   color: var(--text-primary);
-  line-height: 1.6;
+  line-height: 1.5;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  /* Smooth theme transition on everything except images */
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
-  /* Subtle grid texture — uses variable so it adapts to theme */
-  background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 40px 40px;
 }
 
-/* Smooth transitions on common themed elements */
-*, *::before, *::after {
-  transition:
-    background-color 0.3s ease,
-    border-color 0.3s ease,
-    color 0.15s ease,
-    box-shadow 0.3s ease;
+#root {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 100vh;
 }
-
-/* Exclude elements where transitions cause flicker or jank */
-button, a, input, [class*="sparkline"], [class*="skeleton"], img {
-  transition: none;
-}
-
-/* Re-apply intentional transitions on interactive elements */
-button  { transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease; }
-a       { transition: color 0.2s ease, opacity 0.2s ease; }
-input   { transition: border-color 0.2s ease, box-shadow 0.2s ease; }
 
 img {
   display: block;
@@ -162,8 +156,10 @@ img {
 button {
   cursor: pointer;
   font-family: inherit;
+  font-size: inherit;
   border: none;
   background: none;
+  color: inherit;
 }
 
 a {
@@ -173,63 +169,89 @@ a {
 
 input {
   font-family: inherit;
+  font-size: inherit;
+  color: inherit;
 }
 
-/* ── Scrollbar ── */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-primary);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--border-hover);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
-}
-
-/* ── Utility Classes ── */
+/* ============================================================
+   CONTAINER & LAYOUT
+   ============================================================ */
 .container {
   max-width: var(--container-max);
   margin: 0 auto;
-  padding: 0 var(--container-pad);
+  padding: 0 24px;
+  width: 100%;
 }
 
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+@media (max-width: 640px) {
+  .container {
+    padding: 0 16px;
+  }
+}
+
+/* ============================================================
+   FINANCIAL TYPOGRAPHY & BADGES
+   ============================================================ */
+.tabular-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.positive {
+  color: var(--green) !important;
+}
+
+.negative {
+  color: var(--red) !important;
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 8px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
   white-space: nowrap;
-  border: 0;
 }
 
-/* ── Animations ── */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
+.badge-positive {
+  color: var(--green);
+  background-color: var(--green-subtle);
 }
 
+.badge-negative {
+  color: var(--red);
+  background-color: var(--red-subtle);
+}
+
+.badge-neutral {
+  color: var(--text-secondary);
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border);
+}
+
+/* ============================================================
+   KEYFRAME ANIMATIONS
+   ============================================================ */
 @keyframes shimmer {
-  0%   { background-position: -400px 0; }
-  100% { background-position: 400px 0; }
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.5; }
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
 }
 
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
-.fade-in {
-  animation: fadeIn 0.4s ease both;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.45; transform: scale(0.92); }
 }

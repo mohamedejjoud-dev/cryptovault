@@ -1,33 +1,31 @@
-/* src/styles/Sparkline.css */
-
+/* ============================================================
+   SPARKLINE CHART
+   ============================================================ */
 .sparkline {
   display: block;
   overflow: visible;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.05));
+}
+
+.sparkline--responsive {
+  display: block;
+  width: 100%;
 }
 
 .sparkline__path {
   fill: none;
-  stroke-width: 1.5;
+  stroke-width: 1.6;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-.sparkline--positive .sparkline__path {
-  stroke: var(--green);
-}
-
-.sparkline--negative .sparkline__path {
-  stroke: var(--red);
-}
-
 .sparkline__fill {
-  opacity: 0.08;
+  transition: opacity var(--transition-fast);
 }
 
-.sparkline--positive .sparkline__fill {
-  fill: var(--green);
-}
-
-.sparkline--negative .sparkline__fill {
-  fill: var(--red);
+.sparkline-placeholder {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  display: block;
+  text-align: right;
 }

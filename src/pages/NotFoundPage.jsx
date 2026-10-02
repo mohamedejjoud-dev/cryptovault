@@ -1,9 +1,3 @@
-/**
- * src/pages/NotFoundPage.jsx
- *
- * 404 catch-all page for unmatched routes.
- */
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/NotFoundPage.css';
@@ -13,10 +7,10 @@ const NotFoundPage = () => (
     <div className="not-found__code" aria-hidden="true">404</div>
     <h1 className="not-found__title">Page not found</h1>
     <p className="not-found__sub">
-      This coin might have gone to zero — or this page just doesn't exist.
+      The requested page could not be found.
     </p>
     <Link to="/" className="not-found__btn">
-      ← Back to Markets
+      Back to Markets
     </Link>
   </main>
 );

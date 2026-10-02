@@ -1,40 +1,99 @@
-/* src/styles/Footer.css */
-
+/* ============================================================
+   FOOTER (CoinMarketCap / CoinGecko Style)
+   ============================================================ */
 .footer {
   border-top: 1px solid var(--border);
-  padding: 1.5rem 0;
+  background-color: var(--bg-surface);
+  padding: 32px 0 28px;
+  flex-shrink: 0;
   margin-top: auto;
 }
 
 .footer__inner {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 32px;
   flex-wrap: wrap;
 }
 
-.footer__copy {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--text-muted);
+.footer__brand-col {
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.footer__copy span {
-  color: var(--accent-light);
+.footer__brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer__brand-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.footer__badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  background-color: var(--accent-subtle);
+  padding: 1px 6px;
+  border-radius: var(--radius-xs);
+}
+
+.footer__disclaimer {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.footer__meta-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
 }
 
 .footer__credit {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.footer__credit-link {
+  color: var(--accent);
+  font-weight: 600;
+  transition: opacity var(--transition-fast);
+}
+
+.footer__credit-link:hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
+.footer__copy {
+  font-size: 0.78rem;
   color: var(--text-muted);
 }
 
-.footer__credit a {
-  color: var(--text-secondary);
-  transition: color var(--transition);
-}
+@media (max-width: 720px) {
+  .footer {
+    padding: 24px 0;
+  }
 
-.footer__credit a:hover {
-  color: var(--accent-light);
+  .footer__inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .footer__meta-col {
+    align-items: flex-start;
+  }
 }

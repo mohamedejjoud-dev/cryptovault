@@ -1,85 +1,93 @@
-/**
- * src/components/GlobalStats.jsx
- *
- * Horizontal ticker bar showing global crypto market statistics:
- * total market cap, 24h volume, BTC dominance, active coins count.
- */
-
 import React from 'react';
 import { useGlobalStats } from '../hooks/useCryptoData';
-import { formatLargeNumber, formatPercent, getPriceChangeClass } from '../utils/formatters';
+import {
+  formatLargeNumber,
+  formatPercent,
+  getPriceChangeClass,
+} from '../utils/formatters';
 import '../styles/GlobalStats.css';
 
-const Divider = () => <div className="global-stats__divider" aria-hidden="true" />;
-
-const StatItem = ({ label, value, valueClass }) => (
-  <div className="global-stats__item">
-    <span className="global-stats__label">{label}</span>
-    <span className={`global-stats__value ${valueClass || ''}`}>{value}</span>
-  </div>
-);
-
+/**
+ * Top ticker strip showing global cryptocurrency market statistics.
+ * Mimics CoinMarketCap and CoinGecko's institutional header bar.
+ */
 const GlobalStats = () => {
   const { stats, loading } = useGlobalStats();
 
   if (loading || !stats) {
     return (
-      <div className="global-stats global-stats--loading" aria-hidden="true">
-        <div className="container">
-          <span className="skeleton" style={{ width: '60%', height: '12px' }} />
+      <div className="market-summary market-summary--loading" aria-hidden="true">
+        <div className="container market-summary__inner">
+          <span className="market-summary__loading-text">Loading market data…</span>
         </div>
       </div>
     );
   }
 
   const mcapChange = stats.market_cap_change_percentage_24h_usd;
+  const isMcapPositive = mcapChange !== undefined && mcapChange >= 0;
 
   return (
-    <div className="global-stats" role="complementary" aria-label="Global market stats">
-      <div className="container global-stats__inner">
+    <div className="market-summary" role="region" aria-label="Global cryptocurrency market overview">
+      <div className="container market-summary__inner">
+        {/* Cryptos */}
+        <div className="market-summary__item">
+          <span className="market-summary__label">Cryptos:</span>
+          <span className="market-summary__value tabular-num">
+            {stats.active_cryptocurrencies?.toLocaleString()}
+          </span>
+        </div>
 
-        <StatItem
-          label="Market Cap"
-          value={formatLargeNumber(stats.total_market_cap?.usd)}
-        />
-        <Divider />
+        <span className="market-summary__sep" aria-hidden="true">•</span>
 
-        <StatItem
-          label="24h Vol"
-          value={formatLargeNumber(stats.total_volume?.usd)}
-        />
-        <Divider />
+        {/* Markets / Exchanges */}
+        {stats.markets !== undefined && (
+          <>
+            <div className="market-summary__item">
+              <span className="market-summary__label">Exchanges:</span>
+              <span className="market-summary__value tabular-num">
+                {stats.markets?.toLocaleString()}
+              </span>
+            </div>
+            <span className="market-summary__sep" aria-hidden="true">•</span>
+          </>
+        )}
 
-        <StatItem
-          label="24h Change"
-          value={formatPercent(mcapChange)}
-          valueClass={getPriceChangeClass(mcapChange)}
-        />
-        <Divider />
+        {/* Total Market Cap */}
+        <div className="market-summary__item">
+          <span className="market-summary__label">Market Cap:</span>
+          <span className="market-summary__value tabular-num">
+            {formatLargeNumber(stats.total_market_cap?.usd)}
+          </span>
+          {mcapChange !== undefined && (
+            <span className={`market-summary__badge tabular-num ${getPriceChangeClass(mcapChange)}`}>
+              {isMcapPositive ? '▲' : '▼'} {formatPercent(Math.abs(mcapChange))}
+            </span>
+          )}
+        </div>
 
-        <StatItem
-          label="BTC Dominance"
-          value={`${stats.market_cap_percentage?.btc?.toFixed(1)}%`}
-        />
-        <Divider />
+        <span className="market-summary__sep" aria-hidden="true">•</span>
 
-        <StatItem
-          label="ETH Dominance"
-          value={`${stats.market_cap_percentage?.eth?.toFixed(1)}%`}
-        />
-        <Divider />
+        {/* 24h Trading Volume */}
+        <div className="market-summary__item">
+          <span className="market-summary__label">24h Vol:</span>
+          <span className="market-summary__value tabular-num">
+            {formatLargeNumber(stats.total_volume?.usd)}
+          </span>
+        </div>
 
-        <StatItem
-          label="Active Coins"
-          value={stats.active_cryptocurrencies?.toLocaleString()}
-        />
-        <Divider />
+        <span className="market-summary__sep" aria-hidden="true">•</span>
 
-        <StatItem
-          label="Markets"
-          value={stats.markets?.toLocaleString()}
-        />
-
+        {/* Dominance */}
+        <div className="market-summary__item">
+          <span className="market-summary__label">Dominance:</span>
+          <span className="market-summary__value tabular-num">
+            BTC&nbsp;<strong className="market-summary__strong">{stats.market_cap_percentage?.btc?.toFixed(1)}%</strong>
+          </span>
+          <span className="market-summary__sub-value tabular-num">
+            ETH&nbsp;<strong className="market-summary__strong">{stats.market_cap_percentage?.eth?.toFixed(1)}%</strong>
+          </span>
+        </div>
       </div>
     </div>
   );
